@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { TextInput } from 'react-native/types';
+import { useState } from 'react';
 import { toDo } from '../types/index'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,7 +24,7 @@ export default () => {
         }
     };
 
-    const saveToDos = async (todos: ) => {
+    const saveToDos = async (todos: any) => {
         try {
             const stringifyToDos = JSON.stringify(todos);
             await AsyncStorage.setItem('todos', stringifyToDos)
@@ -34,6 +33,17 @@ export default () => {
         }
     }
 
-    return [addToDo, getToDos, todos];
+    const markComplete = (todoId: number) => {
+    const newTodosItem = todos.map(item => {
+      if (item.id == todoId) {
+        return {...item, completed: true};
+      }
+      return item;
+    });
+
+    setToDos(newTodosItem);
+  };
+
+    return [addToDo, getToDos, saveToDos, markComplete, todos] as const;
 
 };
