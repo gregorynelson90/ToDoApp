@@ -3,11 +3,10 @@ import { toDo } from '../types/index'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-//how we want to use our to dos
+//what we want to do with our to dos
 export default () => {
     const [todos, setToDos] = useState<toDo[]>([]);
 
-    //add to do
     const addToDo = (textInput: string) => {
         const newToDo: toDo = { id: Math.random(), task: textInput, completed: false }
         setToDos([...todos, newToDo])
@@ -43,7 +42,14 @@ export default () => {
 
     setToDos(newTodosItem);
   };
+  const deleteTodo = (todoId: number) => {
+    const newTodosItem = todos.filter(item => item.id != todoId);
+    setToDos(newTodosItem);
+  };
+  const clearAllToDos = () => {
+    setToDos([]);
+  };
 
-    return [addToDo, getToDos, saveToDos, markComplete, todos] as const;
+    return [addToDo, getToDos, saveToDos, markComplete, deleteTodo, clearAllToDos, todos] as const;
 
 };
